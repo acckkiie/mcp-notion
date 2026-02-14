@@ -1,0 +1,54 @@
+# mise
+mise.toml
+
+# macOS
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Build output
+build/
+dist/
+
+# Logs
+log/
+*.log
+
+# node
+node_modules/
+
+# Terraform (if added later)
+terraform/.terraform/
+terraform/.terraform.lock.hcl
+terraform/*.tfvars
+terraform/*.conf
+
+# Development tools
+.vscode/
+.idea/
+.tool-versions
+*.swp
+*.swo
+
+# Test coverage
+coverage/
+
+# Workspace
+workspace/
+
+# Temporary files
+tmp/
+temp/
+
+# Gitkeep exceptions
+!**/.gitkeep
+
+# serena
+.serena/
+
+# Test temporary files
+tests/fixtures/temp/

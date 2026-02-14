@@ -1,0 +1,10 @@
+{
+  "logger": {
+    "categories": {
+      "default": {
+        "appenders": ["console", "file"],
+        "level": "warn"
+      }
+    }
+  }
+}

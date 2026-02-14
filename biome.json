@@ -1,0 +1,45 @@
+{
+  "files": {
+    "ignore": [
+      "build/**",
+      "dist/**",
+      "node_modules/**",
+      "coverage/**",
+      "workspace/**",
+      "log/**",
+      ".serena/**"
+    ]
+  },
+  "vcs": {
+    "enabled": false
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100,
+    "lineEnding": "lf"
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "suspicious": {
+        "noExplicitAny": "off"
+      },
+      "complexity": {
+        "noUselessConstructor": "error",
+        "noStaticOnlyClass": "off"
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "double",
+      "semicolons": "always"
+    }
+  },
+  "organizeImports": {
+    "enabled": false
+  }
+}

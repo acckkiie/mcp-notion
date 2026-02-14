@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# Build output
+build/
+dist/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+log/
+*.log
+
+# Workspace (shared with host)
+workspace/
+
+# Temporary files
+tmp/
+temp/
+
+# IDE
+.vscode/
+.idea/
+
+# Git
+.git/
+.gitignore
+
+# Documentation (host-managed)
+README.md
+docs/
+
+# Test files (not needed in container)
+tests/
+coverage/
+
+# Development tools (not needed in production)
+.tool-versions
+mise.toml
