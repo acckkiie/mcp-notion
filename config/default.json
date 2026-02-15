@@ -19,7 +19,7 @@
   "logger": {
     "appenders": {
       "console": {
-        "type": "console",
+        "type": "stderr",
         "layout": {
           "type": "pattern",
           "pattern": "{\"timestamp\":\"%d{ISO8601}\",\"level\":\"%p\",\"message\":%m}"
@@ -40,7 +40,9 @@
     },
     "categories": {
       "default": {
-        "appenders": ["console"],
+        "appenders": [
+          "console"
+        ],
         "level": "info"
       }
     }
