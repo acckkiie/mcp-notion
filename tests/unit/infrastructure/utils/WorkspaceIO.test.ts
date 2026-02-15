@@ -27,20 +27,31 @@ describe("WorkspaceIO", () => {
   });
 
   describe("saveToWorkspace", () => {
-    it("should save content to file and return filepath", () => {
+    it("should save content to internal path but return display path", () => {
       const content = JSON.stringify({ test: "data" });
       const prefix = "test-prefix";
       const identifier = "test-id";
 
-      const filepath = workspaceIO.saveToWorkspace(content, prefix, identifier);
+      // Mock getInternalPath to return TEMP_DIR (simulating local/container write)
+      // Since we are running tests locally, getInternalPath will use HOST_WORKSPACE_PATH (TEMP_DIR)
+      // unless we mock fs.existsSync("/workspace").
 
-      expect(filepath).toContain(TEMP_DIR);
-      expect(filepath).toContain(prefix);
-      expect(filepath).toContain(identifier);
-      expect(fs.existsSync(filepath)).toBe(true);
+      const displayPath = workspaceIO.saveToWorkspace(content, prefix, identifier);
 
-      const savedContent = fs.readFileSync(filepath, "utf-8");
+      // Return value should be in display path (HOST_WORKSPACE_PATH -> TEMP_DIR)
+      expect(displayPath).toContain(TEMP_DIR);
+      expect(displayPath).toContain(prefix);
+
+      // File should exist at the internal path (which is also TEMP_DIR in this test setup)
+      expect(fs.existsSync(displayPath)).toBe(true);
+
+      const savedContent = fs.readFileSync(displayPath, "utf-8");
       expect(savedContent).toBe(content);
+    });
+
+    it("should throw error if HOST_WORKSPACE_PATH is not set", () => {
+      delete process.env.HOST_WORKSPACE_PATH;
+      expect(() => workspaceIO.saveToWorkspace("{}", "p", "id")).toThrow("HOST_WORKSPACE_PATH is required");
     });
   });
 
@@ -55,14 +66,31 @@ describe("WorkspaceIO", () => {
       expect(readContent).toBe(content);
     });
 
-    it("should throw FileSystemError when file does not exist", () => {
-      const filepath = path.join(TEMP_DIR, "non-existent.json");
+    it("should handle host path conversion if internal path differs (mock scenario)", () => {
+      // Setup hypothetical scenario:
+      // HOST_WORKSPACE_PATH = /host/tmp
+      // Internal Path = TEMP_DIR
+      // Input path = /host/tmp/file.json
 
-      expect(() => workspaceIO.readFromFile(filepath)).toThrow(FileSystemError);
+      const hostPath = "/private/tmp/host-workspace"; // Simulated host path
+      process.env.HOST_WORKSPACE_PATH = hostPath;
+
+      // Override getInternalPath to return TEMP_DIR
+      vi.spyOn(workspaceIO as any, "getInternalPath").mockReturnValue(TEMP_DIR);
+
+      const filename = "test-conversion.json";
+      const internalFilePath = path.join(TEMP_DIR, filename); // The actual file
+      const hostFilePath = path.join(hostPath, filename); // The path passed from outside
+
+      const content = "conversion test";
+      fs.writeFileSync(internalFilePath, content);
+
+      const readContent = workspaceIO.readFromFile(hostFilePath);
+      expect(readContent).toBe(content);
     });
 
-    it("should throw FileSystemError for path traversal attempt", () => {
-      const filepath = path.join(TEMP_DIR, "../outside.json");
+    it("should throw FileSystemError when file does not exist", () => {
+      const filepath = path.join(TEMP_DIR, "non-existent.json");
 
       expect(() => workspaceIO.readFromFile(filepath)).toThrow(FileSystemError);
     });

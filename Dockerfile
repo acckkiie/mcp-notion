@@ -12,8 +12,9 @@ COPY config ./config
 # Use existing node user (UID 1000)
 RUN chown -R node:node /app
 
-# Create log directory
-RUN mkdir -p /app/log && chown -R node:node /app/log
+# Create log and workspace directories
+RUN mkdir -p /app/log /workspace && \
+    chown -R node:node /app/log /workspace
 
 # Switch to non-root user
 USER node
