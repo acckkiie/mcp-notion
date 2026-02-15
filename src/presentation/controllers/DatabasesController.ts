@@ -34,6 +34,7 @@ export class DatabasesController extends BaseController {
             },
             sorts: {
               type: "array",
+              items: { type: "object" },
               description: "Sorts array",
             },
             start_cursor: {

@@ -38,4 +38,4 @@ services:
     networks:
       - playground-net
     stdin_open: true
-    tty: false
+    tty: true

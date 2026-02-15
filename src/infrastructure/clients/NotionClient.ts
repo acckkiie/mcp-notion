@@ -19,7 +19,9 @@ import type {
   SearchParameters,
   SearchResponse,
 } from "@notionhq/client/build/src/api-endpoints.js";
+
 import { NotionApiError } from "../../domain/errors/index.js";
+import { HttpsProxyAgent } from "https-proxy-agent";
 
 /**
  * Notion API Client wrapper
@@ -28,11 +30,20 @@ import { NotionApiError } from "../../domain/errors/index.js";
 export class NotionClient {
   private client: Client;
 
+
+
   constructor(auth: string, options?: { timeoutMs?: number }) {
-    this.client = new Client({
+    const clientOptions: any = {
       auth,
       timeoutMs: options?.timeoutMs || 30000,
-    });
+    };
+
+    const proxyUrl = process.env.HTTPS_PROXY || process.env.HTTP_PROXY;
+    if (proxyUrl) {
+      clientOptions.agent = new HttpsProxyAgent(proxyUrl);
+    }
+
+    this.client = new Client(clientOptions);
   }
 
   /**

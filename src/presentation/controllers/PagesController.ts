@@ -66,6 +66,7 @@ export class PagesController extends BaseController {
             },
             children: {
               type: "array",
+              items: { type: "object" },
               description: "Array of block objects to append as page content",
             },
             file_path: {
