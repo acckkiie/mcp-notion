@@ -1,21 +1,21 @@
 # MCP Server for Notion
 
-This tool provides the Notion API as an MCP (Model Context Protocol) server.
-It enables AI agents to search, view, create, and update Notion pages, as well as operate on databases.
+このツールは、Notion API を MCP (Model Context Protocol) サーバーとして提供するものである。
+AI エージェントが Notion ページの検索、閲覧、作成、更新、およびデータベース操作を行うことを可能にする。
 
-## Features
+## 特徴
 
-* Page & Database Operations: Supports major operations such as search, retrieval, creation, updates, and appending blocks.
-* File-based Operations: Drastically reduces LLM token usage by saving/loading page content (JSON) to/from files.
-* Security: Blocks unauthorized access to non-Notion APIs via Squid proxy (when configured with Docker).
+*   **ページおよびデータベース操作**: 検索、取得、作成、更新、ブロック追加などの主要な操作をサポートする。
+*   **ファイルベースの操作**: ページコンテンツ (JSON) をファイルに保存/読み込みすることで、LLM のトークン使用量を大幅に削減する。
+*   **セキュリティ**: Docker で構成した場合、Squid プロキシを経由して Notion API 以外への不正アクセスを遮断する。
 
-## Quick Start
+## クイックスタート
 
-### Local Development Environment
+### ローカル開発環境
 
-Node.js (v22 or higher) is required.
+Node.js (v22 以上) が必要である。
 
-1. Install:
+1.  インストール:
 
     ```bash
     git clone <repository-url>
@@ -23,34 +23,34 @@ Node.js (v22 or higher) is required.
     npm install
     ```
 
-2. Configure:
-    Copy `.env.example` to create `.env` and set your Notion API key.
+2.  設定:
+    `.env.example` をコピーして `.env` を作成し、Notion API キーを設定する。
 
     ```bash
     cp .env.example .env
-    # Edit .env: NOTION_API_KEY=secret_...
+    # .env を編集: NOTION_API_KEY=secret_...
     ```
 
-3. Run:
+3.  実行:
 
     ```bash
     npm run dev
     ```
 
-### Image Build
+### イメージビルド
 
- ```bash
- npm run build
- docker build -t mcp-notion:latest .
- ```
+```bash
+npm run build
+docker build -t mcp-notion:latest .
+```
 
-## MCP Client Configuration
+## MCP クライアント設定
 
-Example configuration for using with Claude Desktop or other MCP clients.
+Claude Desktop やその他の MCP クライアントで使用するための設定例を示す。
 
-### Via Docker (Recommended)
+### Docker 経由 (推奨)
 
-Using Docker reduces environment dependencies and enables security control via proxy.
+Docker を使用することで環境依存を減らし、プロキシによるセキュリティ制御を可能にする。
 
 ```json
 {
@@ -70,7 +70,7 @@ Using Docker reduces environment dependencies and enables security control via p
 }
 ```
 
-### Local Execution
+### ローカル実行
 
 ```json
 {
@@ -89,6 +89,6 @@ Using Docker reduces environment dependencies and enables security control via p
 }
 ```
 
-## License
+## ライセンス
 
 [GNU Affero General Public License v3.0 (AGPL-3.0)](LICENSE)
