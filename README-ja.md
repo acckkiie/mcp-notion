@@ -34,14 +34,11 @@ Node.js (v22以上) が必要である。
     npm run dev
     ```
 
-### Docker環境
+### イメージのビルド
 
-DockerおよびDocker Composeが必要である。
-
-1.  ビルドと起動:
-    ```bash
-    docker compose up --build
-    ```
+```bash
+docker build -t mcp-notion:latest .
+```
 
 ## MCPクライアント設定 (Client Configuration)
 

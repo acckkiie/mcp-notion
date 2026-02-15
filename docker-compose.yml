@@ -18,6 +18,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: mcp-notion:latest
     container_name: mcp-notion
     networks:
       - playground-net
