@@ -1,4 +1,5 @@
 import { Client } from "@notionhq/client";
+import config from "config";
 import type {
   QueryDatabaseParameters,
   QueryDatabaseResponse,
@@ -30,12 +31,10 @@ import { HttpsProxyAgent } from "https-proxy-agent";
 export class NotionClient {
   private client: Client;
 
-
-
   constructor(auth: string, options?: { timeoutMs?: number }) {
     const clientOptions: any = {
       auth,
-      timeoutMs: options?.timeoutMs || 30000,
+      timeoutMs: options?.timeoutMs || config.get<number>("notion.requestTimeout"),
     };
 
     const proxyUrl = process.env.HTTPS_PROXY || process.env.HTTP_PROXY;
