@@ -51,16 +51,12 @@ Dockerを使用することで、環境依存の問題を減らし、プロキ�
 ```json
 {
   "mcpServers": {
-    "notion": {
-      "command": "docker",
+    "mcp-notion": {
+      "type": "stdio",
+      "command": "bash",
       "args": [
-        "compose",
-        "-f",
-        "/path/to/mcp-notion/docker-compose.yml",
-        "run",
-        "--rm",
-        "-i",
-        "mcp-notion"
+        "-c",
+        "docker compose -f /path/to/mcp-notion/docker-compose.yml down 2>/dev/null; docker compose --env-file /path/to/mcp-notion/.env -f /path/to/mcp-notion/docker-compose.yml run --rm -i mcp-notion"
       ],
       "env": {
         "HOST_WORKSPACE_PATH": "/path/to/your/workspace"

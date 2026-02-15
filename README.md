@@ -54,16 +54,12 @@ Using Docker reduces environment dependencies and enables security control via p
 ```json
 {
   "mcpServers": {
-    "notion": {
-      "command": "docker",
+    "mcp-notion": {
+      "disabled": false,
+      "command": "bash",
       "args": [
-        "compose",
-        "-f",
-        "/path/to/mcp-notion/docker-compose.yml",
-        "run",
-        "--rm",
-        "-i",
-        "mcp-notion"
+        "-c",
+        "docker compose -f /path/to/mcp-notion/docker-compose.yml down 2>/dev/null; docker compose --env-file /path/to/mcp-notion/.env -f /path/to/mcp-notion/docker-compose.yml run --rm -i mcp-notion"
       ],
       "env": {
         "HOST_WORKSPACE_PATH": "/path/to/your/workspace"
