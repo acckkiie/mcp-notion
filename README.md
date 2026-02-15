@@ -40,6 +40,7 @@ Node.js (v22 or higher) is required.
 ### Image Build
 
 ```bash
+npm run build
 docker build -t mcp-notion:latest .
 ```
 

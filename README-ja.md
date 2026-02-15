@@ -1,58 +1,62 @@
 # MCP Server for Notion
 
-Notion API を MCP (Model Context Protocol) サーバーとして提供するツールである。
-AIエージェントがNotionのページ検索、閲覧、作成、更新、データベース操作を行うことを可能にする。
+This tool provides the Notion API as an MCP (Model Context Protocol) server.
+It enables AI agents to search, view, create, and update Notion pages, as well as operate on databases.
 
-## 特徴
+## Features
 
-*   ページ・データベース操作: 検索、取得、作成、更新、ブロック追加など主要な操作をサポートする。
-*   ファイルベース操作: ページ内容（JSON）をファイルに保存・読み込みすることで、LLMのトークン消費を大幅に削減する。
-*   セキュリティ: Squidプロキシ経由での通信により、Notion API以外への不正なアクセスを遮断する（Docker構成時）。
+* Page & Database Operations: Supports major operations such as search, retrieval, creation, updates, and appending blocks.
+* File-based Operations: Drastically reduces LLM token usage by saving/loading page content (JSON) to/from files.
+* Security: Blocks unauthorized access to non-Notion APIs via Squid proxy (when configured with Docker).
 
-## クイックスタート
+## Quick Start
 
-### ローカル開発環境
+### Local Development Environment
 
-Node.js (v22以上) が必要である。
+Node.js (v22 or higher) is required.
 
-1.  インストール:
+1. Install:
+
     ```bash
     git clone <repository-url>
     cd mcp-notion
     npm install
     ```
 
-2.  設定:
-    `.env.example` をコピーして `.env` を作成し、Notion APIキーを設定する。
+2. Configure:
+    Copy `.env.example` to create `.env` and set your Notion API key.
+
     ```bash
     cp .env.example .env
-    # .env を編集: NOTION_API_KEY=secret_...
+    # Edit .env: NOTION_API_KEY=secret_...
     ```
 
-3.  実行:
+3. Run:
+
     ```bash
     npm run dev
     ```
 
-### イメージのビルド
+### Image Build
 
-```bash
-docker build -t mcp-notion:latest .
-```
+ ```bash
+ npm run build
+ docker build -t mcp-notion:latest .
+ ```
 
-## MCPクライアント設定 (Client Configuration)
+## MCP Client Configuration
 
-Claude Desktopやその他のMCPクライアントで使用するための設定例である。
+Example configuration for using with Claude Desktop or other MCP clients.
 
-### Docker経由 (推奨)
+### Via Docker (Recommended)
 
-Dockerを使用することで、環境依存の問題を減らし、プロキシによるセキュリティ制御が有効になる。
+Using Docker reduces environment dependencies and enables security control via proxy.
 
 ```json
 {
   "mcpServers": {
     "mcp-notion": {
-      "type": "stdio",
+      "disabled": false,
       "command": "bash",
       "args": [
         "-c",
@@ -66,7 +70,7 @@ Dockerを使用することで、環境依存の問題を減らし、プロキ�
 }
 ```
 
-### ローカル直接実行
+### Local Execution
 
 ```json
 {
@@ -85,6 +89,6 @@ Dockerを使用することで、環境依存の問題を減らし、プロキ�
 }
 ```
 
-## ライセンス
+## License
 
 [GNU Affero General Public License v3.0 (AGPL-3.0)](LICENSE)

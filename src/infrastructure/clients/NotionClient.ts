@@ -40,7 +40,10 @@ export class NotionClient {
 
     const proxyUrl = process.env.HTTPS_PROXY || process.env.HTTP_PROXY;
     if (proxyUrl) {
+      console.error(`[NotionClient] Using Proxy: ${proxyUrl}`);
       clientOptions.agent = new HttpsProxyAgent(proxyUrl);
+    } else {
+      console.error("[NotionClient] No Proxy configured");
     }
 
     this.client = new Client(clientOptions);
