@@ -18,19 +18,15 @@ export class SearchInteractor {
    * Search pages and databases
    */
   async search(input: SearchInput): Promise<Result<SearchOutput, DomainError>> {
-    const { save_to_file, ...params } = input;
     try {
-      const result = await this.notionClient.search(params);
+      const result = await this.notionClient.search(input);
 
-      let content_saved_to: string | undefined;
-      if (save_to_file) {
-        const formatted = JSON.stringify(result, null, 2);
-        content_saved_to = this.fileStorage.saveToWorkspace(
-          formatted,
-          "mcp-notion-search",
-          Date.now().toString(),
-        );
-      }
+      const formatted = JSON.stringify(result, null, 2);
+      const content_saved_to = this.fileStorage.saveToWorkspace(
+        formatted,
+        "mcp-notion-search",
+        Date.now().toString(),
+      );
 
       return success({ ...result, content_saved_to } as SearchOutput);
     } catch (error) {

@@ -1,13 +1,17 @@
 # MCP Server for Notion
 
 This tool provides the Notion API as an MCP (Model Context Protocol) server.
-It enables AI agents to search, view, create, and update Notion pages, as well as operate on databases.
+It enables AI agents to search, view, create, and update
+Notion pages, as well as operate on databases.
 
 ## Features
 
-* Page & Database Operations: Supports major operations such as search, retrieval, creation, updates, and appending blocks.
-* File-based Operations: Drastically reduces LLM token usage by saving/loading page content (JSON) to/from files.
-* Security: Blocks unauthorized access to non-Notion APIs via Squid proxy (when configured with Docker).
+* Page & Database Operations: Supports major operations
+  such as search, retrieval, creation, updates,
+  and appending blocks.
+* File-based Operations: Drastically reduces LLM token
+  usage by saving/loading page content (JSON)
+  to/from files.
 
 ## Quick Start
 

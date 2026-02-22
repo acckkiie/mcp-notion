@@ -27,14 +27,11 @@ export class PagesController extends BaseController {
               type: "string",
               description: "Page ID",
             },
-            save_to_file: {
-              type: "boolean",
-              description: "Save page content to /workspace file to reduce token usage",
-            },
             extract: {
               type: "array",
               items: { type: "string" },
-              description: "Fields to extract (e.g., ['id', 'properties.title'])",
+              description:
+                "Response fields to extract. If omitted, returns recommended fields: ['content_saved_to', 'id']. Use ['none'] to return all fields.",
             },
           },
           required: ["page_id"],
@@ -77,7 +74,8 @@ export class PagesController extends BaseController {
             extract: {
               type: "array",
               items: { type: "string" },
-              description: "Fields to extract from response",
+              description:
+                "Response fields to extract. If omitted, returns recommended fields: ['id', 'url']. Use ['none'] to return all fields.",
             },
           },
           required: ["parent"],
@@ -108,7 +106,8 @@ export class PagesController extends BaseController {
             extract: {
               type: "array",
               items: { type: "string" },
-              description: "Fields to extract from response",
+              description:
+                "Response fields to extract. If omitted, returns recommended fields: ['id', 'url']. Use ['none'] to return all fields.",
             },
           },
           required: ["page_id"],
@@ -123,13 +122,13 @@ export class PagesController extends BaseController {
   async handleToolCall(name: string, args: any): Promise<any> {
     switch (name) {
       case "notion_retrieve_page":
-        return this.handleWithExtract(args, (a) => this.pagesInteractor.retrievePage(a));
+        return this.handleWithExtract(name, args, (a) => this.pagesInteractor.retrievePage(a));
 
       case "notion_create_page":
-        return this.handleWithExtract(args, (a) => this.pagesInteractor.createPage(a));
+        return this.handleWithExtract(name, args, (a) => this.pagesInteractor.createPage(a));
 
       case "notion_update_page":
-        return this.handleWithExtract(args, (a) => this.pagesInteractor.updatePage(a));
+        return this.handleWithExtract(name, args, (a) => this.pagesInteractor.updatePage(a));
 
       default:
         throw new Error(`Unknown tool: ${name}`);

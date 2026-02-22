@@ -29,19 +29,15 @@ export class BlocksInteractor {
   async retrieveBlockChildren(
     input: RetrieveBlockChildrenInput,
   ): Promise<Result<BlockChildrenOutput, DomainError>> {
-    const { save_to_file, ...params } = input;
     try {
-      const result = await this.notionClient.listBlockChildren(params);
+      const result = await this.notionClient.listBlockChildren(input);
 
-      let content_saved_to: string | undefined;
-      if (save_to_file) {
-        const formatted = JSON.stringify(result, null, 2);
-        content_saved_to = this.fileStorage.saveToWorkspace(
-          formatted,
-          "mcp-notion-blocks",
-          input.block_id,
-        );
-      }
+      const formatted = JSON.stringify(result, null, 2);
+      const content_saved_to = this.fileStorage.saveToWorkspace(
+        formatted,
+        "mcp-notion-blocks",
+        input.block_id,
+      );
 
       return success({ ...result, content_saved_to } as BlockChildrenOutput);
     } catch (error) {

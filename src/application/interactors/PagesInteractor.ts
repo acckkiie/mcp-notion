@@ -33,17 +33,12 @@ export class PagesInteractor {
         page_id: input.page_id,
       });
 
-      let content_saved_to: string | undefined;
-      if (input.save_to_file) {
-        const formatted = JSON.stringify(page, null, 2);
-        content_saved_to = this.fileStorage.saveToWorkspace(
-          formatted,
-          "mcp-notion-page",
-          input.page_id,
-        );
-        // Remove large fields to reduce token usage
-        (page as any).properties = undefined;
-      }
+      const formatted = JSON.stringify(page, null, 2);
+      const content_saved_to = this.fileStorage.saveToWorkspace(
+        formatted,
+        "mcp-notion-page",
+        input.page_id,
+      );
 
       return success({ ...page, content_saved_to } as PageOutput);
     } catch (error) {

@@ -62,6 +62,15 @@ describe("Presenter", () => {
       const parsedContent = JSON.parse(response.content[0].text);
       expect(parsedContent).toEqual([{ id: "1" }, { id: "2" }]);
     });
+
+    it("should return all fields when extract is ['none']", () => {
+      const data = { id: "123", name: "test", other: "keep" };
+      const extract = ["none"];
+      const response = Presenter.successResponse(data, extract);
+
+      const parsedContent = JSON.parse(response.content[0].text);
+      expect(parsedContent).toEqual({ id: "123", name: "test", other: "keep" });
+    });
   });
 
   describe("errorResponse", () => {

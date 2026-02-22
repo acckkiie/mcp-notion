@@ -48,7 +48,8 @@ export class DatabasesController extends BaseController {
             extract: {
               type: "array",
               items: { type: "string" },
-              description: "Fields to extract from response",
+              description:
+                "Response fields to extract. If omitted, returns recommended fields: ['content_saved_to']. Use ['none'] to return all fields.",
             },
           },
           required: ["database_id"],
@@ -64,14 +65,11 @@ export class DatabasesController extends BaseController {
               type: "string",
               description: "Database ID",
             },
-            save_to_file: {
-              type: "boolean",
-              description: "Save response to file",
-            },
             extract: {
               type: "array",
               items: { type: "string" },
-              description: "Fields to extract from response",
+              description:
+                "Response fields to extract. If omitted, returns recommended fields: ['content_saved_to', 'id']. Use ['none'] to return all fields.",
             },
           },
           required: ["database_id"],
@@ -86,10 +84,12 @@ export class DatabasesController extends BaseController {
   async handleToolCall(name: string, args: any): Promise<any> {
     switch (name) {
       case "notion_query_database":
-        return this.handleWithExtract(args, (a) => this.databasesInteractor.queryDatabase(a));
+        return this.handleWithExtract(name, args, (a) => this.databasesInteractor.queryDatabase(a));
 
       case "notion_retrieve_database":
-        return this.handleWithExtract(args, (a) => this.databasesInteractor.retrieveDatabase(a));
+        return this.handleWithExtract(name, args, (a) =>
+          this.databasesInteractor.retrieveDatabase(a),
+        );
 
       default:
         throw new Error(`Unknown tool: ${name}`);

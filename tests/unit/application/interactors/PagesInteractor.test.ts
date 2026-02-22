@@ -25,7 +25,7 @@ describe("PagesInteractor", () => {
   });
 
   describe("retrievePage", () => {
-    it("should save content to file when save_to_file is true", async () => {
+    it("should always save content to file", async () => {
       const pageId = "test-page-id";
       const mockPage = { id: pageId, object: "page", properties: { title: "Test" } };
       const savedPath = "/workspace/saved-page.json";
@@ -35,7 +35,6 @@ describe("PagesInteractor", () => {
 
       const result = await pagesInteractor.retrievePage({
         page_id: pageId,
-        save_to_file: true,
       });
 
       expect(mockNotionClient.retrievePage).toHaveBeenCalledWith({ page_id: pageId });
@@ -48,27 +47,6 @@ describe("PagesInteractor", () => {
       expect(result.isSuccess()).toBe(true);
       if (result.isSuccess()) {
         expect(result.value.content_saved_to).toBe(savedPath);
-        // Properties should be removed from result when saved to file
-        expect((result.value as any).properties).toBeUndefined();
-      }
-    });
-
-    it("should return page content normally when save_to_file is false", async () => {
-      const pageId = "test-page-id";
-      const mockPage = { id: pageId, object: "page", properties: { title: "Test" } };
-
-      (mockNotionClient.retrievePage as any).mockResolvedValue(mockPage);
-
-      const result = await pagesInteractor.retrievePage({
-        page_id: pageId,
-        save_to_file: false,
-      });
-
-      expect(mockFileStorage.saveToWorkspace).not.toHaveBeenCalled();
-      expect(result.isSuccess()).toBe(true);
-      if (result.isSuccess()) {
-        expect(result.value.content_saved_to).toBeUndefined();
-        expect(result.value.properties).toBeDefined();
       }
     });
   });

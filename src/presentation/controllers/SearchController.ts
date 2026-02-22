@@ -56,14 +56,11 @@ export class SearchController extends BaseController {
                 },
               },
             },
-            save_to_file: {
-              type: "boolean",
-              description: "Save search results to /workspace file to reduce token usage",
-            },
             extract: {
               type: "array",
               items: { type: "string" },
-              description: "Fields to extract from response",
+              description:
+                "Response fields to extract. If omitted, returns recommended fields: ['content_saved_to', 'id']. Use ['none'] to return all fields.",
             },
           },
           required: ["query"],
@@ -78,7 +75,7 @@ export class SearchController extends BaseController {
   async handleToolCall(name: string, args: any): Promise<any> {
     switch (name) {
       case "notion_search":
-        return this.handleWithExtract(args, (a) => this.searchInteractor.search(a));
+        return this.handleWithExtract(name, args, (a) => this.searchInteractor.search(a));
 
       default:
         throw new Error(`Unknown tool: ${name}`);

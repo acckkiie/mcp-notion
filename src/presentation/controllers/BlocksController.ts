@@ -39,7 +39,8 @@ export class BlocksController extends BaseController {
             extract: {
               type: "array",
               items: { type: "string" },
-              description: "Fields to extract from response",
+              description:
+                "Response fields to extract. If omitted, returns recommended fields: ['content_saved_to']. Use ['none'] to return all fields.",
             },
           },
           required: ["block_id"],
@@ -91,7 +92,8 @@ export class BlocksController extends BaseController {
             extract: {
               type: "array",
               items: { type: "string" },
-              description: "Fields to extract from response",
+              description:
+                "Response fields to extract. If omitted, returns recommended fields: ['results']. Use ['none'] to return all fields.",
             },
           },
           required: ["block_id"],
@@ -106,10 +108,14 @@ export class BlocksController extends BaseController {
   async handleToolCall(name: string, args: any): Promise<any> {
     switch (name) {
       case "notion_retrieve_block_children":
-        return this.handleWithExtract(args, (a) => this.blocksInteractor.retrieveBlockChildren(a));
+        return this.handleWithExtract(name, args, (a) =>
+          this.blocksInteractor.retrieveBlockChildren(a),
+        );
 
       case "notion_append_block_children":
-        return this.handleWithExtract(args, (a) => this.blocksInteractor.appendBlockChildren(a));
+        return this.handleWithExtract(name, args, (a) =>
+          this.blocksInteractor.appendBlockChildren(a),
+        );
 
       default:
         throw new Error(`Unknown tool: ${name}`);

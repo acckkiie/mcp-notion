@@ -23,7 +23,7 @@ describe("DatabasesInteractor", () => {
   });
 
   describe("queryDatabase", () => {
-    it("should save results to file when save_to_file is true", async () => {
+    it("should always save results to file", async () => {
       const databaseId = "test-db-id";
       const mockResults = { results: [{ id: "page-1" }] };
       const savedPath = "/workspace/saved-db.json";
@@ -33,7 +33,6 @@ describe("DatabasesInteractor", () => {
 
       const result = await databasesInteractor.queryDatabase({
         database_id: databaseId,
-        save_to_file: true,
       });
 
       expect(mockNotionClient.queryDatabase).toHaveBeenCalledWith({ database_id: databaseId });
@@ -51,7 +50,7 @@ describe("DatabasesInteractor", () => {
   });
 
   describe("retrieveDatabase", () => {
-    it("should save metadata to file when save_to_file is true", async () => {
+    it("should always save metadata to file", async () => {
       const databaseId = "test-db-id";
       const mockDb = { id: databaseId, object: "database" };
       const savedPath = "/workspace/saved-db-meta.json";
@@ -61,7 +60,6 @@ describe("DatabasesInteractor", () => {
 
       const result = await databasesInteractor.retrieveDatabase({
         database_id: databaseId,
-        save_to_file: true,
       });
 
       expect(mockNotionClient.retrieveDatabase).toHaveBeenCalledWith({ database_id: databaseId });

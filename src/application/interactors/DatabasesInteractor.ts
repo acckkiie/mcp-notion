@@ -25,20 +25,16 @@ export class DatabasesInteractor {
   async queryDatabase(
     input: QueryDatabaseInput,
   ): Promise<Result<DatabaseQueryOutput, DomainError>> {
-    const { save_to_file, ...params } = input;
     try {
-      const result = await this.notionClient.queryDatabase(params);
+      const result = await this.notionClient.queryDatabase(input);
 
-      let content_saved_to: string | undefined;
-      if (save_to_file) {
-        const formatted = JSON.stringify(result, null, 2);
-        const timestamp = Date.now();
-        content_saved_to = this.fileStorage.saveToWorkspace(
-          formatted,
-          "mcp-notion-database",
-          timestamp.toString(),
-        );
-      }
+      const formatted = JSON.stringify(result, null, 2);
+      const timestamp = Date.now();
+      const content_saved_to = this.fileStorage.saveToWorkspace(
+        formatted,
+        "mcp-notion-database",
+        timestamp.toString(),
+      );
 
       return success({ ...result, content_saved_to } as DatabaseQueryOutput);
     } catch (error) {
@@ -55,21 +51,17 @@ export class DatabasesInteractor {
   async retrieveDatabase(
     input: RetrieveDatabaseInput,
   ): Promise<Result<DatabaseOutput, DomainError>> {
-    const { save_to_file, ...params } = input;
     try {
       const result = await this.notionClient.retrieveDatabase({
-        database_id: params.database_id,
+        database_id: input.database_id,
       });
 
-      let content_saved_to: string | undefined;
-      if (save_to_file) {
-        const formatted = JSON.stringify(result, null, 2);
-        content_saved_to = this.fileStorage.saveToWorkspace(
-          formatted,
-          "mcp-notion-database-meta",
-          input.database_id,
-        );
-      }
+      const formatted = JSON.stringify(result, null, 2);
+      const content_saved_to = this.fileStorage.saveToWorkspace(
+        formatted,
+        "mcp-notion-database-meta",
+        input.database_id,
+      );
 
       return success({ ...result, content_saved_to } as DatabaseOutput);
     } catch (error) {

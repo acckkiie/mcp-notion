@@ -1,5 +1,6 @@
 import type { Result } from "../../domain/types/index.js";
 import { Presenter } from "../presenters/index.js";
+import { getDefaultExtract } from "../constants/index.js";
 
 /**
  * Base Controller
@@ -8,17 +9,24 @@ import { Presenter } from "../presenters/index.js";
 export abstract class BaseController {
   /**
    * Handle tool call with extract support
+   * @param toolName Tool name for default extract lookup
    * @param args Arguments containing potential extract parameter
    * @param handler Function that executes the actual interactor logic
    * @returns MCP response
    */
   protected async handleWithExtract<T, E extends Error>(
+    toolName: string,
     args: any,
     handler: (args: any) => Promise<Result<T, E>>,
   ): Promise<any> {
     // Extract extract parameter
-    const extract = args.extract;
-    delete args.extract;
+    let extract = args.extract;
+    args.extract = undefined;
+
+    // Apply default extract fields if not specified
+    if (extract === undefined || extract === null) {
+      extract = getDefaultExtract(toolName);
+    }
 
     // Execute handler
     const result = await handler(args);

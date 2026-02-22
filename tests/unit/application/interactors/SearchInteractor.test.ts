@@ -22,7 +22,7 @@ describe("SearchInteractor", () => {
   });
 
   describe("search", () => {
-    it("should save search results to file when save_to_file is true", async () => {
+    it("should always save search results to file", async () => {
       const query = "test query";
       const mockResults = { results: [{ id: "result-1" }] };
       const savedPath = "/workspace/saved-search.json";
@@ -32,7 +32,6 @@ describe("SearchInteractor", () => {
 
       const result = await searchInteractor.search({
         query: query,
-        save_to_file: true,
       });
 
       expect(mockNotionClient.search).toHaveBeenCalledWith({ query: query });

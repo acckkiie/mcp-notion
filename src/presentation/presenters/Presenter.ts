@@ -1,4 +1,5 @@
 import type { Result } from "../../domain/types/index.js";
+import { EXTRACT_NONE } from "../constants/index.js";
 
 /**
  * Presenter
@@ -11,9 +12,13 @@ export class Presenter {
   static successResponse(data: any, extract?: string[]): any {
     let responseData = data;
 
+    // Handle special "none" value - return all fields
+    const effectiveExtract =
+      extract && extract.length === 1 && extract[0] === EXTRACT_NONE ? undefined : extract;
+
     // extract 処理
-    if (extract && extract.length > 0) {
-      responseData = Presenter.extractFields(responseData, extract);
+    if (effectiveExtract && effectiveExtract.length > 0) {
+      responseData = Presenter.extractFields(responseData, effectiveExtract);
     }
 
     return {

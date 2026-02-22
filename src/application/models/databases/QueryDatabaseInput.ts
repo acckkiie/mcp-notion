@@ -4,5 +4,4 @@ export interface QueryDatabaseInput {
   sorts?: any[];
   start_cursor?: string;
   page_size?: number;
-  save_to_file?: boolean;
 }

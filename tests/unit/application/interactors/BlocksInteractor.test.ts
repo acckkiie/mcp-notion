@@ -24,7 +24,7 @@ describe("BlocksInteractor", () => {
   });
 
   describe("retrieveBlockChildren", () => {
-    it("should save children to file when save_to_file is true", async () => {
+    it("should always save children to file", async () => {
       const blockId = "test-block-id";
       const mockChildren = { results: [{ id: "child-1" }] };
       const savedPath = "/workspace/saved-blocks.json";
@@ -34,7 +34,6 @@ describe("BlocksInteractor", () => {
 
       const result = await blocksInteractor.retrieveBlockChildren({
         block_id: blockId,
-        save_to_file: true,
       });
 
       expect(mockNotionClient.listBlockChildren).toHaveBeenCalledWith({ block_id: blockId });
