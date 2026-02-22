@@ -55,21 +55,18 @@ export class BlocksInteractor {
     input: AppendBlockChildrenInput,
   ): Promise<Result<BlockChildrenOutput, DomainError>> {
     try {
-      let requestBody: any = input;
+      let requestBody: any;
 
-      if (input.file_path) {
-        try {
-          const fileContent = this.fileStorage.readFromFile(input.file_path);
-          const fileData = JSON.parse(fileContent);
-          // Merge file data (children array) with other request params
-          requestBody = { ...input, ...fileData };
-          requestBody.file_path = undefined;
-        } catch (parseError) {
-          if (parseError instanceof SyntaxError) {
-            throw new JsonParseError(input.file_path, parseError as Error);
-          }
-          throw new FileReadError(input.file_path, parseError as Error);
+      try {
+        const fileContent = this.fileStorage.readFromFile(input.file_path);
+        const fileData = JSON.parse(fileContent);
+        // Merge file data with block_id
+        requestBody = { block_id: input.block_id, ...fileData };
+      } catch (parseError) {
+        if (parseError instanceof SyntaxError) {
+          throw new JsonParseError(input.file_path, parseError as Error);
         }
+        throw new FileReadError(input.file_path, parseError as Error);
       }
 
       const result = await this.notionClient.appendBlockChildren(requestBody);

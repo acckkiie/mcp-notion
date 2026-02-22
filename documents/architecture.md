@@ -51,12 +51,14 @@ quickly overflowing the context window.
     Each tool has default extract fields applied
     automatically when the AI does not specify extract.
     This minimizes unnecessary data transfer.
-* Page Update (specified by `file_path`):
-    The LLM writes the edited content (in JSON format)
+* Page Update/Creation (file-based only):
+    The LLM writes the edited or new content (in JSON format)
     to a local file and passes that file path to the
-    MCP tool. Since the server reads the file and calls
+    MCP tool (`file_path` parameter). Passing JSON data directly
+    in the payload is not supported to strictly save tokens.
+    Since the server reads the file and calls
     the Notion API, token consumption during the
-    request is also minimized.
+    request is minimized.
 
 ```mermaid
 sequenceDiagram

@@ -50,8 +50,11 @@ describe("WorkspaceIO", () => {
     });
 
     it("should throw error if HOST_WORKSPACE_PATH is not set", () => {
+      // biome-ignore lint/performance/noDelete: process.env requires delete to actually remove the key
       delete process.env.HOST_WORKSPACE_PATH;
-      expect(() => workspaceIO.saveToWorkspace("{}", "p", "id")).toThrow("HOST_WORKSPACE_PATH is required");
+      expect(() => workspaceIO.saveToWorkspace("{}", "p", "id")).toThrow(
+        "HOST_WORKSPACE_PATH is required",
+      );
     });
   });
 

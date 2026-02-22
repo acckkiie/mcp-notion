@@ -12,17 +12,12 @@
     "lint:fix": "npm run lint:programs:fix && npm run lint:documents:fix",
     "lint:programs:check": "biome check .",
     "lint:programs:fix": "biome check --write .",
-    "lint:documents:check": "markdownlint-cli2 '**/*.md'",
-    "lint:documents:fix": "markdownlint-cli2 --fix '**/*.md'",
+    "lint:documents:check": "markdownlint-cli2 '**/*.md' '#node_modules'",
+    "lint:documents:fix": "markdownlint-cli2 --fix '**/*.md' '#node_modules'",
     "test": "vitest run",
     "prepare": "husky"
   },
-  "keywords": [
-    "mcp",
-    "notion",
-    "api",
-    "server"
-  ],
+  "keywords": ["mcp", "notion", "api", "server"],
   "author": "acckkiie",
   "license": "AGPL-3.0",
   "dependencies": {
@@ -47,11 +42,7 @@
     "node": ">=22.0.0"
   },
   "lint-staged": {
-    "src/**/*.{ts,js}": [
-      "npx biome check --write"
-    ],
-    "**/*.md": [
-      "npx markdownlint-cli2 --fix"
-    ]
+    "src/**/*.{ts,js}": ["npx biome check --write"],
+    "**/*.md": ["npx markdownlint-cli2 --fix"]
   }
 }

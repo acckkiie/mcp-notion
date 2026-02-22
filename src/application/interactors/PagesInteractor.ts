@@ -54,18 +54,16 @@ export class PagesInteractor {
    */
   async createPage(input: CreatePageInput): Promise<Result<PageOutput, DomainError>> {
     try {
-      let requestBody: any = input;
+      let requestBody: any;
 
-      if (input.file_path) {
-        try {
-          const fileContent = this.fileStorage.readFromFile(input.file_path);
-          requestBody = JSON.parse(fileContent);
-        } catch (parseError) {
-          if (parseError instanceof SyntaxError) {
-            throw new JsonParseError(input.file_path, parseError as Error);
-          }
-          throw new FileReadError(input.file_path, parseError as Error);
+      try {
+        const fileContent = this.fileStorage.readFromFile(input.file_path);
+        requestBody = JSON.parse(fileContent);
+      } catch (parseError) {
+        if (parseError instanceof SyntaxError) {
+          throw new JsonParseError(input.file_path, parseError as Error);
         }
+        throw new FileReadError(input.file_path, parseError as Error);
       }
 
       const page = await this.notionClient.createPage(requestBody);
@@ -83,20 +81,17 @@ export class PagesInteractor {
    */
   async updatePage(input: UpdatePageInput): Promise<Result<PageOutput, DomainError>> {
     try {
-      let requestBody: any = input;
+      let requestBody: any;
 
-      if (input.file_path) {
-        try {
-          const fileContent = this.fileStorage.readFromFile(input.file_path);
-          const fileData = JSON.parse(fileContent);
-          const { file_path, ...rest } = input;
-          requestBody = { ...fileData, ...rest };
-        } catch (parseError) {
-          if (parseError instanceof SyntaxError) {
-            throw new JsonParseError(input.file_path, parseError as Error);
-          }
-          throw new FileReadError(input.file_path, parseError as Error);
+      try {
+        const fileContent = this.fileStorage.readFromFile(input.file_path);
+        const fileData = JSON.parse(fileContent);
+        requestBody = { ...fileData, page_id: input.page_id };
+      } catch (parseError) {
+        if (parseError instanceof SyntaxError) {
+          throw new JsonParseError(input.file_path, parseError as Error);
         }
+        throw new FileReadError(input.file_path, parseError as Error);
       }
 
       const page = await this.notionClient.updatePage(requestBody);

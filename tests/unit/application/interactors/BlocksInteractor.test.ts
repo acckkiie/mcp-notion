@@ -63,13 +63,13 @@ describe("BlocksInteractor", () => {
       const result = await blocksInteractor.appendBlockChildren({
         block_id: blockId,
         file_path: filePath,
-        children: [], // Originally empty, filled from file
       });
 
       expect(mockFileStorage.readFromFile).toHaveBeenCalledWith(filePath);
-      // Verify that children from file are merged
+      // Verify that children from file are merged along with the block ID
       expect(mockNotionClient.appendBlockChildren).toHaveBeenCalledWith(
         expect.objectContaining({
+          block_id: blockId,
           children: [{ type: "paragraph" }],
         }),
       );

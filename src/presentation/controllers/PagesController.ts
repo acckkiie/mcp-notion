@@ -40,36 +40,14 @@ export class PagesController extends BaseController {
       {
         name: "notion_create_page",
         description:
-          "Creates page in database (requires properties) or as subpage (requires children blocks)",
+          "IMPORTANT: You MUST write the JSON payload (including 'parent', 'properties', 'children') to a file first, then pass the file path in 'file_path'. Creates page in database or as subpage.",
         inputSchema: {
           type: "object",
           properties: {
-            parent: {
-              type: "object",
-              description: "Parent page, database, or workspace",
-              properties: {
-                type: {
-                  type: "string",
-                  enum: ["page_id", "database_id", "workspace"],
-                },
-                page_id: { type: "string" },
-                database_id: { type: "string" },
-              },
-              required: ["type"],
-            },
-            properties: {
-              type: "object",
-              description: "Page properties (required for database parent)",
-            },
-            children: {
-              type: "array",
-              items: { type: "object" },
-              description: "Array of block objects to append as page content",
-            },
             file_path: {
               type: "string",
               description:
-                "Path to file containing request body (JSON). If specified, properties and children are read from file.",
+                "Path to file containing request body (JSON). JSON must include 'parent', 'properties' (if database), and optionally 'children'.",
             },
             extract: {
               type: "array",
@@ -78,12 +56,13 @@ export class PagesController extends BaseController {
                 "Response fields to extract. If omitted, returns recommended fields: ['id', 'url']. Use ['none'] to return all fields.",
             },
           },
-          required: ["parent"],
+          required: ["file_path"],
         },
       },
       {
         name: "notion_update_page",
-        description: "Updates page properties, archive status, icon, or cover image",
+        description:
+          "IMPORTANT: You MUST write the JSON payload to a file first, then pass the file path in 'file_path'. Updates page properties, archive status, icon, or cover.",
         inputSchema: {
           type: "object",
           properties: {
@@ -91,17 +70,10 @@ export class PagesController extends BaseController {
               type: "string",
               description: "Page ID",
             },
-            properties: {
-              type: "object",
-              description: "Page properties to update",
-            },
-            archived: {
-              type: "boolean",
-              description: "Whether the page is archived",
-            },
             file_path: {
               type: "string",
-              description: "Path to file containing updates (JSON). Merged with other params.",
+              description:
+                "Path to file containing updates (JSON). JSON should include 'properties', 'archived', 'icon', or 'cover'.",
             },
             extract: {
               type: "array",
@@ -110,7 +82,7 @@ export class PagesController extends BaseController {
                 "Response fields to extract. If omitted, returns recommended fields: ['id', 'url']. Use ['none'] to return all fields.",
             },
           },
-          required: ["page_id"],
+          required: ["page_id", "file_path"],
         },
       },
     ];

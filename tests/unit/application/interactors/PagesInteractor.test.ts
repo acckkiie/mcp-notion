@@ -61,7 +61,6 @@ describe("PagesInteractor", () => {
       (mockNotionClient.createPage as any).mockResolvedValue(mockCreatedPage);
 
       const result = await pagesInteractor.createPage({
-        parent: { type: "page_id", page_id: "parent-id" },
         file_path: filePath,
       });
 

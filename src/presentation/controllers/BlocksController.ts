@@ -48,7 +48,8 @@ export class BlocksController extends BaseController {
       },
       {
         name: "notion_append_block_children",
-        description: "Appends content blocks (paragraphs, headings, to_do, lists) to page or block",
+        description:
+          "IMPORTANT: You MUST write the JSON payload (array of children) to a file first, then pass the file path in 'file_path'. Appends content blocks.",
         inputSchema: {
           type: "object",
           properties: {
@@ -56,38 +57,10 @@ export class BlocksController extends BaseController {
               type: "string",
               description: "Parent block ID",
             },
-            children: {
-              type: "array",
-              description: "Array of block objects to append",
-              items: {
-                type: "object",
-                properties: {
-                  type: {
-                    type: "string",
-                    enum: [
-                      "paragraph",
-                      "heading_1",
-                      "heading_2",
-                      "heading_3",
-                      "to_do",
-                      "bulleted_list_item",
-                      "numbered_list_item",
-                    ],
-                  },
-                  paragraph: { type: "object" },
-                  heading_1: { type: "object" },
-                  heading_2: { type: "object" },
-                  heading_3: { type: "object" },
-                  to_do: { type: "object" },
-                  bulleted_list_item: { type: "object" },
-                  numbered_list_item: { type: "object" },
-                },
-              },
-            },
             file_path: {
               type: "string",
               description:
-                "Path to file containing children blocks (JSON). If specified, children are read from file.",
+                "Path to file containing children blocks (JSON). JSON must include a 'children' array.",
             },
             extract: {
               type: "array",
@@ -96,7 +69,7 @@ export class BlocksController extends BaseController {
                 "Response fields to extract. If omitted, returns recommended fields: ['results']. Use ['none'] to return all fields.",
             },
           },
-          required: ["block_id"],
+          required: ["block_id", "file_path"],
         },
       },
     ];

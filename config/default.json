@@ -40,9 +40,7 @@
     },
     "categories": {
       "default": {
-        "appenders": [
-          "console"
-        ],
+        "appenders": ["console"],
         "level": "info"
       }
     }
