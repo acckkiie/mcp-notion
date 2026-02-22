@@ -3,6 +3,8 @@ export * from "./pages/CreatePageInput.js";
 export * from "./pages/UpdatePageInput.js";
 export * from "./pages/PageOutput.js";
 
+export * from "./databases/CreateDatabaseInput.js";
+export * from "./databases/UpdateDatabaseInput.js";
 export * from "./databases/QueryDatabaseInput.js";
 export * from "./databases/RetrieveDatabaseInput.js";
 export * from "./databases/DatabaseQueryOutput.js";

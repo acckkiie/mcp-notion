@@ -5,6 +5,10 @@ import type {
   QueryDatabaseResponse,
   GetDatabaseParameters,
   GetDatabaseResponse,
+  CreateDatabaseParameters,
+  CreateDatabaseResponse,
+  UpdateDatabaseParameters,
+  UpdateDatabaseResponse,
   GetPageParameters,
   GetPageResponse,
   CreatePageParameters,
@@ -65,6 +69,28 @@ export class NotionClient {
   async retrieveDatabase(params: GetDatabaseParameters): Promise<GetDatabaseResponse> {
     try {
       return await this.client.databases.retrieve(params);
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  /**
+   * Create a database
+   */
+  async createDatabase(params: CreateDatabaseParameters): Promise<CreateDatabaseResponse> {
+    try {
+      return await this.client.databases.create(params);
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  /**
+   * Update a database
+   */
+  async updateDatabase(params: UpdateDatabaseParameters): Promise<UpdateDatabaseResponse> {
+    try {
+      return await this.client.databases.update(params);
     } catch (error) {
       throw this.handleError(error);
     }

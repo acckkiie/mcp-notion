@@ -8,10 +8,13 @@ import { success } from "../../../../src/domain/types/index.js";
 const mockNotionClient = {
   queryDatabase: vi.fn(),
   retrieveDatabase: vi.fn(),
+  createDatabase: vi.fn(),
+  updateDatabase: vi.fn(),
 } as unknown as NotionClient;
 
 const mockFileStorage = {
   saveToWorkspace: vi.fn(),
+  readFromFile: vi.fn(),
 } as unknown as IFileStorage;
 
 describe("DatabasesInteractor", () => {
@@ -72,6 +75,82 @@ describe("DatabasesInteractor", () => {
       expect(result.isSuccess()).toBe(true);
       if (result.isSuccess()) {
         expect(result.value.content_saved_to).toBe(savedPath);
+      }
+    });
+  });
+
+  describe("createDatabase", () => {
+    it("should parse file content and call Notion API", async () => {
+      const mockDb = { id: "new-db-id", object: "database" };
+      const reqBody = { parent: { type: "page_id", page_id: "parent-id" }, title: [] };
+      const filePath = "/workspace/create.json";
+
+      (mockFileStorage.readFromFile as any).mockReturnValue(JSON.stringify(reqBody));
+      (mockNotionClient.createDatabase as any).mockResolvedValue(mockDb);
+
+      const result = await databasesInteractor.createDatabase({ file_path: filePath });
+
+      expect(mockFileStorage.readFromFile).toHaveBeenCalledWith(filePath);
+      expect(mockNotionClient.createDatabase).toHaveBeenCalledWith(reqBody);
+      expect(result.isSuccess()).toBe(true);
+      if (result.isSuccess()) {
+        expect(result.value).toEqual(mockDb);
+      }
+    });
+
+    it("should return failure on JSON parse error", async () => {
+      const filePath = "/workspace/create-invalid.json";
+      (mockFileStorage.readFromFile as any).mockReturnValue("{ invalid json");
+
+      const result = await databasesInteractor.createDatabase({ file_path: filePath });
+
+      expect(result.isFailure()).toBe(true);
+      if (result.isFailure()) {
+        expect(result.error).toBeInstanceOf(Error);
+      }
+    });
+  });
+
+  describe("updateDatabase", () => {
+    it("should merge database_id into parsed file content and call Notion API", async () => {
+      const dbId = "existing-db-id";
+      const mockDb = { id: dbId, object: "database" };
+      const reqBody = { title: [] };
+      const filePath = "/workspace/update.json";
+
+      (mockFileStorage.readFromFile as any).mockReturnValue(JSON.stringify(reqBody));
+      (mockNotionClient.updateDatabase as any).mockResolvedValue(mockDb);
+
+      const result = await databasesInteractor.updateDatabase({
+        database_id: dbId,
+        file_path: filePath,
+      });
+
+      expect(mockFileStorage.readFromFile).toHaveBeenCalledWith(filePath);
+      expect(mockNotionClient.updateDatabase).toHaveBeenCalledWith({
+        ...reqBody,
+        database_id: dbId,
+      });
+      expect(result.isSuccess()).toBe(true);
+      if (result.isSuccess()) {
+        expect(result.value).toEqual(mockDb);
+      }
+    });
+
+    it("should return failure on file read error", async () => {
+      const filePath = "/workspace/missing.json";
+      (mockFileStorage.readFromFile as any).mockImplementation(() => {
+        throw new Error("Cannot read file");
+      });
+
+      const result = await databasesInteractor.updateDatabase({
+        database_id: "db-id",
+        file_path: filePath,
+      });
+
+      expect(result.isFailure()).toBe(true);
+      if (result.isFailure()) {
+        expect(result.error).toBeInstanceOf(Error);
       }
     });
   });
