@@ -1,7 +1,7 @@
 <!-- markdownlint-disable MD013 -->
 # MCP Server for Notion
 
-[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0) [![Node.js](https://img.shields.io/badge/Node.js-%3E%3D22.0.0-success.svg)](https://nodejs.org/) [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue.svg)](https://www.typescriptlang.org/)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0) [![Node.js](https://img.shields.io/badge/Node.js-%3E%3D22.0.0-success.svg)](https://nodejs.org/) [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue.svg)](https://www.typescriptlang.org/) [![Docker](https://img.shields.io/badge/Docker-29.1.0-blue.svg?logo=docker&logoColor=white)](https://www.docker.com/)
 
 このツールは、Notion API を MCP (Model Context Protocol) サーバーとして提供するものである。
 AI エージェントが Notion ページ操作およびデータベース操作を行うことを可能にする。
