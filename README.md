@@ -1,4 +1,7 @@
+<!-- markdownlint-disable MD013 -->
 # MCP Server for Notion
+
+[![npm version](https://img.shields.io/npm/v/mcp-notion.svg)](https://www.npmjs.com/package/mcp-notion) [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0) [![Node.js](https://img.shields.io/badge/Node.js-%3E%3D22.0.0-success.svg)](https://nodejs.org/) [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue.svg)](https://www.typescriptlang.org/)
 
 This tool provides the Notion API as an MCP (Model Context Protocol) server.
 It enables AI agents to search, view, create, and update
@@ -16,8 +19,6 @@ Notion pages, as well as operate on databases.
 ## Quick Start
 
 ### Local Development Environment
-
-Node.js (v22 or higher) is required.
 
 1. Install:
 
@@ -49,8 +50,6 @@ docker build -t mcp-notion:latest .
 ```
 
 ## MCP Client Configuration
-
-Example configuration for using with Claude Desktop or other MCP clients.
 
 ### Via Docker (Recommended)
 
