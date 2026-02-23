@@ -1,7 +1,7 @@
 <!-- markdownlint-disable MD013 -->
 # MCP Server for Notion
 
-[![npm version](https://img.shields.io/npm/v/mcp-notion.svg)](https://www.npmjs.com/package/mcp-notion) [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0) [![Node.js](https://img.shields.io/badge/Node.js-%3E%3D22.0.0-success.svg)](https://nodejs.org/) [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue.svg)](https://www.typescriptlang.org/)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0) [![Node.js](https://img.shields.io/badge/Node.js-%3E%3D22.0.0-success.svg)](https://nodejs.org/) [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue.svg)](https://www.typescriptlang.org/)
 
 This tool provides the Notion API as an MCP (Model Context Protocol) server.
 It enables AI agents to search, view, create, and update
@@ -9,12 +9,17 @@ Notion pages, as well as operate on databases.
 
 ## Features
 
-* Page & Database Operations: Supports major operations
-  such as search, retrieval, creation, updates,
-  and appending blocks.
-* File-based Operations: Drastically reduces LLM token
-  usage by saving/loading page content (JSON)
-  to/from files.
+### Page & Database Operations
+
+Supports major operations such as search, retrieval, creation, updates, and appending blocks.
+
+### File-based Operations
+
+Drastically reduces LLM token usage by saving/loading page content (JSON) to/from files.
+
+### Response Extraction (extract)
+
+Optimizes context size by extracting only the necessary properties from the API response.
 
 ## Quick Start
 
@@ -23,7 +28,7 @@ Notion pages, as well as operate on databases.
 1. Install:
 
     ```bash
-    git clone <repository-url>
+    git clone https://github.com/acckkiie/mcp-notion
     cd mcp-notion
     npm install
     ```
