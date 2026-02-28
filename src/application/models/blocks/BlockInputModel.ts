@@ -1,4 +1,4 @@
-import type { RichTextInput } from "./RichTextInput.js";
+import type { RichTextInput } from "./RichTextInputModel.js";
 
 export interface BlockInput {
   type:
