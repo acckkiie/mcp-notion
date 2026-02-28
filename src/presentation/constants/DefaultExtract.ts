@@ -18,6 +18,9 @@ export const DEFAULT_EXTRACT_FIELDS: Record<string, string[]> = {
   // Blocks tools
   notion_retrieve_block_children: ["content_saved_to"],
   notion_append_block_children: ["results"],
+  notion_delete_block: ["id", "in_trash"],
+  notion_retrieve_block: ["content_saved_to", "id"],
+  notion_update_block: ["id", "last_edited_time"],
 
   // Databases tools
   notion_query_database: ["content_saved_to"],

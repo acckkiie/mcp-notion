@@ -17,6 +17,10 @@ import type {
   UpdatePageResponse,
   GetBlockParameters,
   GetBlockResponse,
+  UpdateBlockParameters,
+  UpdateBlockResponse,
+  DeleteBlockParameters,
+  DeleteBlockResponse,
   ListBlockChildrenParameters,
   ListBlockChildrenResponse,
   AppendBlockChildrenParameters,
@@ -135,6 +139,28 @@ export class NotionClient {
   async retrieveBlock(params: GetBlockParameters): Promise<GetBlockResponse> {
     try {
       return await this.client.blocks.retrieve(params);
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  /**
+   * Update a block
+   */
+  async updateBlock(params: UpdateBlockParameters): Promise<UpdateBlockResponse> {
+    try {
+      return await this.client.blocks.update(params);
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  /**
+   * Delete a block
+   */
+  async deleteBlock(params: DeleteBlockParameters): Promise<DeleteBlockResponse> {
+    try {
+      return await this.client.blocks.delete(params);
     } catch (error) {
       throw this.handleError(error);
     }

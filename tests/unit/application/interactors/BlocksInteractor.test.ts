@@ -8,6 +8,9 @@ import { success } from "../../../../src/domain/types/index.js";
 const mockNotionClient = {
   listBlockChildren: vi.fn(),
   appendBlockChildren: vi.fn(),
+  deleteBlock: vi.fn(),
+  retrieveBlock: vi.fn(),
+  updateBlock: vi.fn(),
 } as unknown as NotionClient;
 
 const mockFileStorage = {
@@ -74,6 +77,77 @@ describe("BlocksInteractor", () => {
         }),
       );
       expect(result.isSuccess()).toBe(true);
+    });
+  });
+
+  describe("deleteBlock", () => {
+    it("should call notionClient.deleteBlock and return success", async () => {
+      const blockId = "test-block-id";
+      const mockResult = { id: "test-block-id", object: "block", in_trash: true };
+
+      (mockNotionClient.deleteBlock as any).mockResolvedValue(mockResult);
+
+      const result = await blocksInteractor.deleteBlock({ block_id: blockId });
+
+      expect(mockNotionClient.deleteBlock).toHaveBeenCalledWith({ block_id: blockId });
+      expect(result.isSuccess()).toBe(true);
+      if (result.isSuccess()) {
+        expect(result.value).toEqual(mockResult);
+      }
+    });
+  });
+
+  describe("retrieveBlock", () => {
+    it("should retrieve a block and save it to file", async () => {
+      const blockId = "test-block-id";
+      const mockBlock = { id: blockId, object: "block" };
+      const savedPath = "/workspace/saved-block.json";
+
+      (mockNotionClient.retrieveBlock as any).mockResolvedValue(mockBlock);
+      (mockFileStorage.saveToWorkspace as any).mockReturnValue(savedPath);
+
+      const result = await blocksInteractor.retrieveBlock({ block_id: blockId });
+
+      expect(mockNotionClient.retrieveBlock).toHaveBeenCalledWith({ block_id: blockId });
+      expect(mockFileStorage.saveToWorkspace).toHaveBeenCalledWith(
+        JSON.stringify(mockBlock, null, 2),
+        "mcp-notion-block",
+        blockId,
+      );
+
+      expect(result.isSuccess()).toBe(true);
+      if (result.isSuccess()) {
+        expect(result.value.content_saved_to).toBe(savedPath);
+      }
+    });
+  });
+
+  describe("updateBlock", () => {
+    it("should read from file and update the block", async () => {
+      const blockId = "test-block-id";
+      const filePath = "/workspace/update-block.json";
+      const fileContent = JSON.stringify({ paragraph: { rich_text: [{ text: { content: "Updated text" } }] } });
+      const mockResult = { id: blockId, object: "block" };
+
+      (mockFileStorage.readFromFile as any).mockReturnValue(fileContent);
+      (mockNotionClient.updateBlock as any).mockResolvedValue(mockResult);
+
+      const result = await blocksInteractor.updateBlock({
+        block_id: blockId,
+        file_path: filePath,
+      });
+
+      expect(mockFileStorage.readFromFile).toHaveBeenCalledWith(filePath);
+      expect(mockNotionClient.updateBlock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          block_id: blockId,
+          paragraph: { rich_text: [{ text: { content: "Updated text" } }] },
+        }),
+      );
+      expect(result.isSuccess()).toBe(true);
+      if (result.isSuccess()) {
+        expect(result.value).toEqual(mockResult);
+      }
     });
   });
 });
