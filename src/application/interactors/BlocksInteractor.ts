@@ -39,7 +39,7 @@ export class BlocksInteractor {
       const formatted = JSON.stringify(result, null, 2);
       const content_saved_to = this.fileStorage.saveToWorkspace(
         formatted,
-        "mcp-notion-blocks",
+        "notion-mcp-server-blocks",
         input.block_id,
       );
 
@@ -108,7 +108,7 @@ export class BlocksInteractor {
       const formatted = JSON.stringify(result, null, 2);
       const content_saved_to = this.fileStorage.saveToWorkspace(
         formatted,
-        "mcp-notion-block",
+        "notion-mcp-server-block",
         input.block_id,
       );
 

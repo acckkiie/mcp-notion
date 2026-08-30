@@ -1,7 +1,7 @@
 # Architecture
 
 This document explains the design philosophy
-and major architecture of mcp-notion.
+and major architecture of notion-mcp-server.
 
 ## System Overview
 
@@ -43,7 +43,7 @@ quickly overflowing the context window.
 
 * Page Retrieval:
     Always saves page content (in JSON format) to a
-    local file (e.g., `/workspace/mcp-notion-page-...`)
+    local file (e.g., `/workspace/notion-mcp-server-page-...`)
     and returns only the "file path" and "metadata"
     to the LLM. This keeps token consumption to a
     few hundred.

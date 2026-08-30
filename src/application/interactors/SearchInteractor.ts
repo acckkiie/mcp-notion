@@ -24,7 +24,7 @@ export class SearchInteractor {
       const formatted = JSON.stringify(result, null, 2);
       const content_saved_to = this.fileStorage.saveToWorkspace(
         formatted,
-        "mcp-notion-search",
+        "notion-mcp-server-search",
         Date.now().toString(),
       );
 

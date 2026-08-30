@@ -37,7 +37,7 @@ describe("SearchInteractor", () => {
       expect(mockNotionClient.search).toHaveBeenCalledWith({ query: query });
       expect(mockFileStorage.saveToWorkspace).toHaveBeenCalledWith(
         JSON.stringify(mockResults, null, 2),
-        "mcp-notion-search",
+        "notion-mcp-server-search",
         expect.any(String),
       );
 

@@ -41,7 +41,7 @@ describe("DatabasesInteractor", () => {
       expect(mockNotionClient.queryDatabase).toHaveBeenCalledWith({ database_id: databaseId });
       expect(mockFileStorage.saveToWorkspace).toHaveBeenCalledWith(
         JSON.stringify(mockResults, null, 2),
-        "mcp-notion-database",
+        "notion-mcp-server-database",
         expect.any(String),
       );
 
@@ -68,7 +68,7 @@ describe("DatabasesInteractor", () => {
       expect(mockNotionClient.retrieveDatabase).toHaveBeenCalledWith({ database_id: databaseId });
       expect(mockFileStorage.saveToWorkspace).toHaveBeenCalledWith(
         JSON.stringify(mockDb, null, 2),
-        "mcp-notion-database-meta",
+        "notion-mcp-server-database-meta",
         databaseId,
       );
 

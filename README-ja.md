@@ -27,8 +27,8 @@ API のレスポンスから必要なプロパティのみを抽出すること�
 1. インストール:
 
     ```bash
-    git clone https://github.com/acckkiie/mcp-notion
-    cd mcp-notion
+    git clone https://github.com/acckkiie/notion-mcp-server
+    cd notion-mcp-server
     npm install
     ```
 
@@ -50,7 +50,7 @@ API のレスポンスから必要なプロパティのみを抽出すること�
 
 ```bash
 npm run build
-docker build -t mcp-notion:latest .
+docker build -t notion-mcp-server:latest .
 ```
 
 ## MCP クライアント設定
@@ -62,12 +62,12 @@ Docker を使用することで環境依存を減らし、プロキシによる�
 ```json
 {
   "mcpServers": {
-    "mcp-notion": {
+    "notion-mcp-server": {
       "disabled": false,
       "command": "bash",
       "args": [
         "-c",
-        "docker compose -f /path/to/mcp-notion/docker-compose.yml down 2>/dev/null; docker compose --env-file /path/to/mcp-notion/.env -f /path/to/mcp-notion/docker-compose.yml run --rm -i mcp-notion"
+        "docker compose -f /path/to/notion-mcp-server/docker-compose.yml down 2>/dev/null; docker compose --env-file /path/to/notion-mcp-server/.env -f /path/to/notion-mcp-server/docker-compose.yml run --rm -i notion-mcp-server"
       ],
       "env": {
         "HOST_WORKSPACE_PATH": "/path/to/your/workspace"
@@ -85,7 +85,7 @@ Docker を使用することで環境依存を減らし、プロキシによる�
     "notion": {
       "command": "node",
       "args": [
-        "/path/to/mcp-notion/build/index.js"
+        "/path/to/notion-mcp-server/build/index.js"
       ],
       "env": {
         "NOTION_API_KEY": "secret_...",

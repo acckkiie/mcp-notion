@@ -42,7 +42,7 @@ describe("BlocksInteractor", () => {
       expect(mockNotionClient.listBlockChildren).toHaveBeenCalledWith({ block_id: blockId });
       expect(mockFileStorage.saveToWorkspace).toHaveBeenCalledWith(
         JSON.stringify(mockChildren, null, 2),
-        "mcp-notion-blocks",
+        "notion-mcp-server-blocks",
         blockId,
       );
 
@@ -111,7 +111,7 @@ describe("BlocksInteractor", () => {
       expect(mockNotionClient.retrieveBlock).toHaveBeenCalledWith({ block_id: blockId });
       expect(mockFileStorage.saveToWorkspace).toHaveBeenCalledWith(
         JSON.stringify(mockBlock, null, 2),
-        "mcp-notion-block",
+        "notion-mcp-server-block",
         blockId,
       );
 
@@ -126,7 +126,9 @@ describe("BlocksInteractor", () => {
     it("should read from file and update the block", async () => {
       const blockId = "test-block-id";
       const filePath = "/workspace/update-block.json";
-      const fileContent = JSON.stringify({ paragraph: { rich_text: [{ text: { content: "Updated text" } }] } });
+      const fileContent = JSON.stringify({
+        paragraph: { rich_text: [{ text: { content: "Updated text" } }] },
+      });
       const mockResult = { id: blockId, object: "block" };
 
       (mockFileStorage.readFromFile as any).mockReturnValue(fileContent);

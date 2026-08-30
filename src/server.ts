@@ -56,7 +56,7 @@ export async function main(): Promise<void> {
     // Create MCP server
     const server = new Server(
       {
-        name: "mcp-notion",
+        name: "notion-mcp-server",
         version: "1.0.0",
       },
       {

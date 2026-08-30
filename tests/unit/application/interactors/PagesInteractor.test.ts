@@ -40,7 +40,7 @@ describe("PagesInteractor", () => {
       expect(mockNotionClient.retrievePage).toHaveBeenCalledWith({ page_id: pageId });
       expect(mockFileStorage.saveToWorkspace).toHaveBeenCalledWith(
         JSON.stringify(mockPage, null, 2),
-        "mcp-notion-page",
+        "notion-mcp-server-page",
         pageId,
       );
 

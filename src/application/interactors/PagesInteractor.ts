@@ -36,7 +36,7 @@ export class PagesInteractor {
       const formatted = JSON.stringify(page, null, 2);
       const content_saved_to = this.fileStorage.saveToWorkspace(
         formatted,
-        "mcp-notion-page",
+        "notion-mcp-server-page",
         input.page_id,
       );
 

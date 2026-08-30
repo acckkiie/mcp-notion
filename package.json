@@ -1,5 +1,5 @@
 {
-  "name": "mcp-notion",
+  "name": "notion-mcp-server",
   "version": "1.0.0",
   "description": "Notion MCP Server - Model Context Protocol server for Notion API",
   "type": "module",

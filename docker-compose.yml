@@ -20,11 +20,11 @@ services:
       - playground-net
       - proxy-net
 
-  mcp-notion:
+  notion-mcp-server:
     build:
       context: .
       dockerfile: Dockerfile
-    image: mcp-notion:latest
+    image: notion-mcp-server:latest
     environment:
       - NOTION_API_KEY=${NOTION_API_KEY}
       - HOST_WORKSPACE_PATH=${HOST_WORKSPACE_PATH:-/private/tmp}

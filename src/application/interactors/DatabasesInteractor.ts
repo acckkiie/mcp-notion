@@ -39,7 +39,7 @@ export class DatabasesInteractor {
       const timestamp = Date.now();
       const content_saved_to = this.fileStorage.saveToWorkspace(
         formatted,
-        "mcp-notion-database",
+        "notion-mcp-server-database",
         timestamp.toString(),
       );
 
@@ -66,7 +66,7 @@ export class DatabasesInteractor {
       const formatted = JSON.stringify(result, null, 2);
       const content_saved_to = this.fileStorage.saveToWorkspace(
         formatted,
-        "mcp-notion-database-meta",
+        "notion-mcp-server-database-meta",
         input.database_id,
       );
 

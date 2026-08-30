@@ -28,8 +28,8 @@ Optimizes context size by extracting only the necessary properties from the API 
 1. Install:
 
     ```bash
-    git clone https://github.com/acckkiie/mcp-notion
-    cd mcp-notion
+    git clone https://github.com/acckkiie/notion-mcp-server
+    cd notion-mcp-server
     npm install
     ```
 
@@ -51,7 +51,7 @@ Optimizes context size by extracting only the necessary properties from the API 
 
 ```bash
 npm run build
-docker build -t mcp-notion:latest .
+docker build -t notion-mcp-server:latest .
 ```
 
 ## MCP Client Configuration
@@ -63,12 +63,12 @@ Using Docker reduces environment dependencies and enables security control via p
 ```json
 {
   "mcpServers": {
-    "mcp-notion": {
+    "notion-mcp-server": {
       "disabled": false,
       "command": "bash",
       "args": [
         "-c",
-        "docker compose -f /path/to/mcp-notion/docker-compose.yml down 2>/dev/null; docker compose --env-file /path/to/mcp-notion/.env -f /path/to/mcp-notion/docker-compose.yml run --rm -i mcp-notion"
+        "docker compose -f /path/to/notion-mcp-server/docker-compose.yml down 2>/dev/null; docker compose --env-file /path/to/notion-mcp-server/.env -f /path/to/notion-mcp-server/docker-compose.yml run --rm -i notion-mcp-server"
       ],
       "env": {
         "HOST_WORKSPACE_PATH": "/path/to/your/workspace"
@@ -86,7 +86,7 @@ Using Docker reduces environment dependencies and enables security control via p
     "notion": {
       "command": "node",
       "args": [
-        "/path/to/mcp-notion/build/index.js"
+        "/path/to/notion-mcp-server/build/index.js"
       ],
       "env": {
         "NOTION_API_KEY": "secret_...",
